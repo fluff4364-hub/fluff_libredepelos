@@ -1,0 +1,473 @@
+/* =========================================================
+   FLUFF — JAVASCRIPT
+   MENÚ + PARTÍCULAS + ANIMACIONES
+   ========================================================= */
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       MENÚ CELULAR
+       ===================================================== */
+
+    var botonMenu =
+        document.getElementById("fluffMenuToggle");
+
+
+    var menu =
+        document.getElementById("fluffNav");
+
+
+    if (botonMenu && menu) {
+
+
+        botonMenu.addEventListener(
+            "click",
+            function (evento) {
+
+                evento.stopPropagation();
+
+                menu.classList.toggle(
+                    "fluff-menu-abierto"
+                );
+
+            }
+        );
+
+
+        var enlaces =
+            menu.querySelectorAll(
+                ".fluff-nav-link"
+            );
+
+
+        for (
+            var i = 0;
+            i < enlaces.length;
+            i++
+        ) {
+
+            enlaces[i].addEventListener(
+                "click",
+                function () {
+
+                    menu.classList.remove(
+                        "fluff-menu-abierto"
+                    );
+
+                }
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CERRAR MENÚ AL HACER CLICK AFUERA
+       ===================================================== */
+
+    document.addEventListener(
+        "click",
+        function (evento) {
+
+            if (!menu || !botonMenu) {
+                return;
+            }
+
+
+            if (
+                !menu.contains(evento.target) &&
+                !botonMenu.contains(evento.target)
+            ) {
+
+                menu.classList.remove(
+                    "fluff-menu-abierto"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       ENLACES ACTIVOS
+       ===================================================== */
+
+    var links =
+        document.querySelectorAll(
+            ".fluff-nav-link"
+        );
+
+
+    for (
+        var j = 0;
+        j < links.length;
+        j++
+    ) {
+
+        links[j].addEventListener(
+            "click",
+            function () {
+
+
+                for (
+                    var k = 0;
+                    k < links.length;
+                    k++
+                ) {
+
+                    links[k].classList.remove(
+                        "fluff-enlace-activo"
+                    );
+
+                }
+
+
+                this.classList.add(
+                    "fluff-enlace-activo"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       PARTÍCULAS QUE SIGUEN EL MOUSE
+       ===================================================== */
+
+    var hero =
+        document.querySelector(
+            ".fluff-hero"
+        );
+
+
+    var particulas =
+        document.querySelectorAll(
+            ".fluff-particula"
+        );
+
+
+    if (
+        hero &&
+        particulas.length > 0
+    ) {
+
+
+        hero.addEventListener(
+            "mousemove",
+            function (evento) {
+
+
+                var rect =
+                    hero.getBoundingClientRect();
+
+
+                var mouseX =
+                    evento.clientX -
+                    rect.left;
+
+
+                var mouseY =
+                    evento.clientY -
+                    rect.top;
+
+
+                var centroX =
+                    rect.width / 2;
+
+
+                var centroY =
+                    rect.height / 2;
+
+
+                for (
+                    var p = 0;
+                    p < particulas.length;
+                    p++
+                ) {
+
+
+                    var fuerza =
+                        (p + 1) * 0.45;
+
+
+                    var movimientoX =
+                        (
+                            mouseX -
+                            centroX
+                        ) *
+                        0.008 *
+                        fuerza;
+
+
+                    var movimientoY =
+                        (
+                            mouseY -
+                            centroY
+                        ) *
+                        0.008 *
+                        fuerza;
+
+
+                    particulas[p].style.transform =
+                        "translate(" +
+                        movimientoX +
+                        "px, " +
+                        movimientoY +
+                        "px)";
+
+                }
+
+            }
+        );
+
+
+        hero.addEventListener(
+            "mouseleave",
+            function () {
+
+
+                for (
+                    var p = 0;
+                    p < particulas.length;
+                    p++
+                ) {
+
+                    particulas[p].style.transform =
+                        "translate(0,0)";
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       APARICIÓN DE LAS TARJETAS
+       ===================================================== */
+
+    var tarjetas =
+        document.querySelectorAll(
+            ".cuidado-card"
+        );
+
+
+    function mostrarTarjetas() {
+
+
+        for (
+            var i = 0;
+            i < tarjetas.length;
+            i++
+        ) {
+
+
+            var posicion =
+                tarjetas[i].getBoundingClientRect();
+
+
+            if (
+                posicion.top <
+                window.innerHeight * 0.88
+            ) {
+
+                tarjetas[i].classList.add(
+                    "fluff-tarjeta-visible"
+                );
+
+            }
+
+        }
+
+    }
+
+
+    if (tarjetas.length > 0) {
+
+        window.addEventListener(
+            "scroll",
+            mostrarTarjetas
+        );
+
+
+        mostrarTarjetas();
+
+    }
+
+
+    /* =====================================================
+       EFECTO SUAVE EN ¿POR QUÉ FLUFF?
+       ===================================================== */
+
+    var porque =
+        document.getElementById(
+            "por-que-fluff"
+        );
+
+
+    if (porque) {
+
+
+        function revisarPorque() {
+
+
+            var posicion =
+                porque.getBoundingClientRect();
+
+
+            if (
+                posicion.top <
+                window.innerHeight * 0.88
+            ) {
+
+                porque.classList.add(
+                    "fluff-porque-visible"
+                );
+
+            }
+
+        }
+
+
+        window.addEventListener(
+            "scroll",
+            revisarPorque
+        );
+
+
+        revisarPorque();
+
+    }
+
+
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+/* =========================================================
+   GALERÍA FLUFF: FILTROS, VISOR Y NAVEGACIÓN DE FOTOS
+   ========================================================= */
+(function () {
+    var galeria = document.getElementById("galeria");
+    if (!galeria) { return; }
+
+    var filtros = galeria.querySelectorAll(".galeria-filtro");
+    var tarjetas = galeria.querySelectorAll(".galeria-tarjeta");
+    var mensajeVacio = galeria.querySelector(".galeria-sin-resultados");
+    var visor = document.getElementById("galeriaVisor");
+    var imagenAmpliada = document.getElementById("galeriaImagenAmpliada");
+    var descripcion = document.getElementById("galeriaDescripcion");
+    var botonCerrar = galeria.querySelector(".galeria-cerrar");
+    var botonAnterior = galeria.querySelector(".galeria-anterior");
+    var botonSiguiente = galeria.querySelector(".galeria-siguiente");
+    var tarjetasVisibles = [];
+    var indiceActual = 0;
+    var elementoAnterior = null;
+
+    function aplicarFiltro(categoria) {
+        var visibles = 0;
+        for (var i = 0; i < tarjetas.length; i++) {
+            var coincide = categoria === "todos" || tarjetas[i].getAttribute("data-categoria") === categoria;
+            tarjetas[i].hidden = !coincide;
+            if (coincide) { visibles++; }
+        }
+        for (var j = 0; j < filtros.length; j++) {
+            var activo = filtros[j].getAttribute("data-filtro") === categoria;
+            filtros[j].classList.toggle("activo", activo);
+            filtros[j].setAttribute("aria-pressed", activo ? "true" : "false");
+        }
+        if (mensajeVacio) { mensajeVacio.hidden = visibles > 0; }
+    }
+
+    function actualizarVisor() {
+        if (!tarjetasVisibles.length) { return; }
+        var tarjeta = tarjetasVisibles[indiceActual];
+        var foto = tarjeta.querySelector("img");
+        imagenAmpliada.src = tarjeta.getAttribute("data-imagen");
+        imagenAmpliada.alt = foto ? foto.alt : "Fotografía de Fluff";
+        descripcion.textContent = tarjeta.getAttribute("data-texto") || "Fluff · Libre de pelos";
+    }
+
+    function abrirVisor(tarjeta) {
+        tarjetasVisibles = [];
+        for (var i = 0; i < tarjetas.length; i++) {
+            if (!tarjetas[i].hidden) { tarjetasVisibles.push(tarjetas[i]); }
+        }
+        indiceActual = tarjetasVisibles.indexOf(tarjeta);
+        if (indiceActual < 0) { return; }
+        elementoAnterior = document.activeElement;
+        actualizarVisor();
+        visor.hidden = false;
+        document.body.style.overflow = "hidden";
+        botonCerrar.focus();
+    }
+
+    function cerrarVisor() {
+        visor.hidden = true;
+        document.body.style.overflow = "";
+        if (elementoAnterior && elementoAnterior.focus) { elementoAnterior.focus(); }
+    }
+
+    function cambiarFotografia(direccion) {
+        if (!tarjetasVisibles.length) { return; }
+        indiceActual += direccion;
+        if (indiceActual < 0) { indiceActual = tarjetasVisibles.length - 1; }
+        if (indiceActual >= tarjetasVisibles.length) { indiceActual = 0; }
+        actualizarVisor();
+    }
+
+    for (var f = 0; f < filtros.length; f++) {
+        filtros[f].addEventListener("click", function () {
+            aplicarFiltro(this.getAttribute("data-filtro"));
+        });
+    }
+    for (var t = 0; t < tarjetas.length; t++) {
+        tarjetas[t].addEventListener("click", function () { abrirVisor(this); });
+    }
+    botonCerrar.addEventListener("click", cerrarVisor);
+    botonAnterior.addEventListener("click", function () { cambiarFotografia(-1); });
+    botonSiguiente.addEventListener("click", function () { cambiarFotografia(1); });
+    visor.addEventListener("click", function (evento) {
+        if (evento.target === visor) { cerrarVisor(); }
+    });
+    document.addEventListener("keydown", function (evento) {
+        if (visor.hidden) { return; }
+        if (evento.key === "Escape") { cerrarVisor(); }
+        if (evento.key === "ArrowLeft") { cambiarFotografia(-1); }
+        if (evento.key === "ArrowRight") { cambiarFotografia(1); }
+    });
+    aplicarFiltro("todos");
+})();
+
+});
+
+
+/* =========================================================
+   ANIMACIONES DE ENTRADA PARA MISIÓN Y NOSOTROS
+   ========================================================= */
+(function () {
+    var elementos = document.querySelectorAll(".fluff-revelar");
+    if (!elementos.length || !("IntersectionObserver" in window)) {
+        return;
+    }
+    document.body.classList.add("fluff-animaciones");
+    var observador = new IntersectionObserver(function (entradas) {
+        for (var i = 0; i < entradas.length; i++) {
+            if (entradas[i].isIntersecting) {
+                entradas[i].target.classList.add("fluff-visible");
+                observador.unobserve(entradas[i].target);
+            }
+        }
+    }, { threshold: 0.12 });
+    for (var j = 0; j < elementos.length; j++) {
+        observador.observe(elementos[j]);
+    }
+})();
